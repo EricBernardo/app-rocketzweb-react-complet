@@ -1,8 +1,8 @@
+import slash from 'slash2';
 import { IConfig, IPlugin } from 'umi-types';
 import defaultSettings from './defaultSettings'; // https://umijs.org/config/
-
-import slash from 'slash2';
 import webpackPlugin from './plugin.config';
+
 const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
@@ -20,7 +20,7 @@ const plugins: IPlugin[] = [
         // default false
         enable: true,
         // default zh-CN
-        default: 'zh-CN',
+        default: 'pt-BR',
         // default true, when it is true, will use `navigator.language` overwrite default
         baseNavigator: true,
       },
@@ -31,11 +31,11 @@ const plugins: IPlugin[] = [
       },
       pwa: pwa
         ? {
-            workboxPluginMode: 'InjectManifest',
-            workboxOptions: {
-              importWorkboxFrom: 'local',
-            },
-          }
+          workboxPluginMode: 'InjectManifest',
+          workboxOptions: {
+            importWorkboxFrom: 'local',
+          },
+        }
         : false, // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
       // dll features https://webpack.js.org/plugins/dll-plugin/
       // dll: {
@@ -122,6 +122,20 @@ export default {
           Routes: ['src/pages/Authorized'],
           authority: ['admin', 'user'],
           routes: [
+            {
+              path: '/company',
+              name: 'company',
+              icon: 'shop',
+              //component: './company/list',
+              routes: [
+                {
+                  name: 'company-list',
+                  path: '/company',
+                  component: './company/list',
+                  hidden: true
+                },
+              ]
+            },
             {
               path: '/dashboard',
               name: 'dashboard',

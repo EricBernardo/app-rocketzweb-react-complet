@@ -1,10 +1,10 @@
 import { Avatar, Card, Dropdown, Icon, List, Menu, Tooltip } from 'antd';
-import React, { Component } from 'react';
-
 import { connect } from 'dva';
 import numeral from 'numeral';
+import React, { Component } from 'react';
 import { ModalState } from '../../model';
 import stylesApplications from './index.less';
+
 
 export function formatWan(val: number) {
   const v = val * 1;
