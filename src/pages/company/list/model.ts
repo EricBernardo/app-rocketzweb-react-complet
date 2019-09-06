@@ -1,6 +1,6 @@
 import { AnyAction, Reducer } from 'redux';
 import { EffectsCommandMap } from 'dva';
-import { addFakeList, queryFakeList, removeFakeList, updateFakeList } from './service';
+import { list } from './service';
 
 import { BasicListItemDataType } from './data.d';
 
@@ -22,7 +22,7 @@ export interface ModelType {
     submit: Effect;
   };
   reducers: {
-    queryList: Reducer<StateType>;
+    list: Reducer<StateType>;
     appendList: Reducer<StateType>;
   };
 }
@@ -36,14 +36,14 @@ const Model: ModelType = {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryFakeList, payload);
+      const response = yield call(list, payload);
       yield put({
-        type: 'queryList',
-        payload: Array.isArray(response) ? response : [],
+        type: 'list',
+        payload: Array.isArray(response.data) ? response.data : [],
       });
     },
     *appendFetch({ payload }, { call, put }) {
-      const response = yield call(queryFakeList, payload);
+      const response = yield call(list, payload);
       yield put({
         type: 'appendList',
         payload: Array.isArray(response) ? response : [],
@@ -58,20 +58,20 @@ const Model: ModelType = {
       }
       const response = yield call(callback, payload); // post
       yield put({
-        type: 'queryList',
+        type: 'list',
         payload: response,
       });
     },
   },
 
   reducers: {
-    queryList(state, action) {
+    list(state, action) {      
       return {
         ...state,
         list: action.payload,
       };
     },
-    appendList(state = { list: [] }, action) {
+    appendList(state = { list: [] }, action) {      
       return {
         ...state,
         list: state.list.concat(action.payload),

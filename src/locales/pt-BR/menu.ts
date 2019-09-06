@@ -7,6 +7,7 @@ export default {
   'menu.register': 'Registro',
   'menu.register.result': 'Resultado de registro',
   'menu.company': 'Empresa',
+  'menu.company.list': 'Listagem empresa',
   'menu.dashboard': 'Dashboard',
   'menu.dashboard.analysis': 'Análise',
   'menu.dashboard.monitor': 'Monitor',

@@ -1,31 +1,24 @@
-/**
- * request 网络请求工具
- * 更详细的 api 文档: https://github.com/umijs/umi-request
- */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 
 const codeMessage = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
+  200: 'O servidor retornou com sucesso os dados solicitados.',
+   201: 'Dados novos ou modificados são bem-sucedidos.',
+   202: 'Uma solicitação entrou na fila de segundo plano (tarefa assíncrona).',
+   204: 'Excluir dados com sucesso.',
+   400: 'A solicitação foi enviada com erro. O servidor não executou nenhuma operação para criar ou modificar dados.',
+   401: 'O usuário não tem permissão (token, nome de usuário, senha está incorreta).',
+   403: 'O usuário está autorizado, mas o acesso é proibido.',
+   404: 'A solicitação enviada é para um registro que não existe e o servidor não está operando.',
+   406: 'O formato da solicitação não está disponível.',
+   410: 'O recurso solicitado é excluído permanentemente e não será obtido novamente.',
+   422: 'Ao criar um objeto, ocorreu um erro de validação.',
+   500: 'O servidor está com um erro. Verifique o servidor.',
+   502: 'Erro no gateway.',
+   503: 'O serviço está indisponível, o servidor está temporariamente sobrecarregado ou mantido.',
+   504: 'O gateway expirou.',
 };
 
-/**
- * 异常处理程序
- */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
   if (response && response.status) {
@@ -33,24 +26,24 @@ const errorHandler = (error: { response: Response }): Response => {
     const { status, url } = response;
 
     notification.error({
-      message: `请求错误 ${status}: ${url}`,
+      message: `Erro de solicitação ${status}: ${url}`,
       description: errorText,
     });
   } else if (!response) {
     notification.error({
-      description: '您的网络发生异常，无法连接服务器',
-      message: '网络异常',
+      description: 'Ocorreu uma anormalidade na sua rede, incapaz de se conectar ao servidor',
+      message: 'Exceção de rede',
     });
   }
   return response;
 };
 
-/**
- * 配置request请求时的默认参数
- */
 const request = extend({
-  errorHandler, // 默认错误处理
-  credentials: 'include', // 默认请求是否带上cookie
+  headers: { 
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQ2MmFiNmI3MGM1ZmE2MGY5MGYzYTIxZWI2MjkxNGE1M2JhNzAwMjdlM2Y0YTg4NGYzYWNkOGRjYjkxYzk4MGRmZDM0OWYzYmIyZjI4NTk1In0.eyJhdWQiOiIxIiwianRpIjoiNDYyYWI2YjcwYzVmYTYwZjkwZjNhMjFlYjYyOTE0YTUzYmE3MDAyN2UzZjRhODg0ZjNhY2Q4ZGNiOTFjOTgwZGZkMzQ5ZjNiYjJmMjg1OTUiLCJpYXQiOjE1Njc3Mjg0NzEsIm5iZiI6MTU2NzcyODQ3MSwiZXhwIjoxNTk5MzUwODcxLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.qFYnVn7zDb1TJUpMWC7agoqVnmhkb2rOZqq2ZVPoPJRuas9uld_1YkTHZnMWYK4JbvFyQlE4G1aiKbbuq-Lgl5ctZWMhDkpMQ0hKG-UGa4sy4HNxKTkQ8-NMQ1iQMF5E-FEOAxq7m5lhJ_lMaGIGuUisFmcv105EJedLD-oYWit2wb_PLUsbbV251ZQc7G0qtO4W5HIw2xxkNv8sosEqdKTmCybkYjtI7GsS28bO7LLX83iluMhpHQGHUXVkAlMlcRTqXoymaUEeClh34xIVD6Ku3M5LmKrG3ohdciRpKDs60tE_AS2juzpoPbS9PHccHhl-aOvf-PJpaWB3z7MGSqBlSDIHpb2va0sMOgIR-P1suvLBs269xt80YGBvLoSqE4LP1yZDWLunLL9Ko65fOBhB5B9qHFWQqWLBJDW5Q0_pBnucY8XnaVayKsC4GcJpx7dSwWChZfM8LDxn1fYzu1JJYIQQg7NQQ3I2u4vg5DYVUrP3FOEAcZA_9nTQkWwcQ1ekTl6Lfx_GvQO1sgFqOvKRcX3SLhBVme4cmg7gYUFhxsFd7XQF3YmybveFVLFDFYczXhjczL4EYBAnWqzzHvA4osqbDeV6kCI6e6FDcIkQkYqGtTOfErYDPZb9Nr1PpJrHQGPNinZXXEYLQAKy1_4ZacpGoN7RJUia8J_l6j8'
+  },
+  prefix: 'http://api.rocketzweb.kinghost.net/api',
+  errorHandler  
 });
 
 export default request;

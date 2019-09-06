@@ -129,7 +129,7 @@ export default {
               //component: './company/list',
               routes: [
                 {
-                  name: 'company-list',
+                  name: 'list',
                   path: '/company',
                   component: './company/list',
                   hidden: true
